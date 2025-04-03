@@ -2,35 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index() {
-        return Product::all();
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return Product::get();
     }
 
-    public function store(Request $request) {
-        $validated = $request->validate([
-            'name' => 'required|string|max:200',
-            'description' => 'required|string|max:200',
-            'price' => 'required|decimal',
-        ]);
-        return Product::create($validated);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function store(Request $request)
+    {
+        return Product::create($request->all());
     }
 
-    public function show($id) {
-        return Product::findOrFail($id);
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        return Product::find($id);
     }
 
-    public function update(Request $request, $id) {
-        $Product = Product::findOrFail($id);
-        $Product->update($request->all());
-        return $Product;
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $product->update($request->all());
+        return $product;
     }
 
-    public function destroy($id) {
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
         return Product::destroy($id);
     }
 }
